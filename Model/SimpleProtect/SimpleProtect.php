@@ -34,6 +34,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Quote\Model\Quote\Address;
 use Payone\Core\Model\Source\AddressCheckType;
 use Payone\Core\Model\Source\CreditratingCheckType;
+use Payone\Core\Model\Source\BusinessRelation;
 use Magento\Framework\Exception\LocalizedException;
 use Payone\Core\Model\Exception\FilterMethodListException;
 use Payone\Core\Model\Api\Response\AddresscheckResponse;
@@ -242,14 +243,26 @@ class SimpleProtect extends OrigSimpleProtect
         $sConsumerscoreType = CreditratingCheckType::INFOSCORE_ALL;
         #$sConsumerscoreType = CreditratingCheckType::INFOSCORE_ALL_BONI;
         #$sConsumerscoreType = CreditratingCheckType::BONIVERSUM_VERITA;
+        #$sConsumerscoreType = CreditratingCheckType::SCHUFA_SHORT;
+        #$sConsumerscoreType = CreditratingCheckType::SCHUFA_MIDDLE;
 
         $sAddresscheckType = AddressCheckType::NONE;
         #$sAddresscheckType = AddressCheckType::BASIC;
         #$sAddresscheckType = AddressCheckType::PERSON;
         #$sAddresscheckType = AddressCheckType::BONIVERSUM_BASIC;
         #$sAddresscheckType = AddressCheckType::BONIVERSUM_PERSON;
+        #$sAddresscheckType = AddressCheckType::ADDRESSCHECK_SCHUFA;
 
-        return $this->protectFunnel->executeConsumerscore($oAddress, $this->getOperationMode(), $sConsumerscoreType, $sAddresscheckType, $this->getModuleVersion());
+        $sBusinessRelation = null;
+        #$sBusinessRelation = BusinessRelation::B2C; // required for SCHUFA check SCHUFA short or SCHUFA middle
+        #$sBusinessRelation = BusinessRelation::B2B; // required for SCHUFA check SCHUFA middle
+
+        $sBirthday = null; // Mandatory for Boniversum and SCHUFA Services b2c - needed format: YYYYMMDD
+        if (!empty($oQuote->getCustomer()->getDob())) {
+            $sBirthday = $oQuote->getCustomer()->getDob();
+        }
+
+        return $this->protectFunnel->executeConsumerscore($oAddress, $this->getOperationMode(), $sConsumerscoreType, $sAddresscheckType, $this->getModuleVersion(), $sBusinessRelation, $sBirthday);
     }
 
     /**
