@@ -26,4 +26,9 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Payone\Core\Model\SimpleProtect\SimpleProtect" type="Payone\SimpleProtect\Model\SimpleProtect\SimpleProtect" /><!-- Use your own Simple Protect implementation instead of empty default implementation -->
+    <type name="Payone\SimpleProtect\Model\SimpleProtect\SimpleProtect">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>

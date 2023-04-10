@@ -73,7 +73,7 @@ class SimpleProtect extends OrigSimpleProtect
     /**
      * Checkout session object
      *
-     * @var \Magento\Checkout\Model\Session\Proxy
+     * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
 
@@ -89,13 +89,13 @@ class SimpleProtect extends OrigSimpleProtect
      *
      * @param \Payone\Core\Model\SimpleProtect\ProtectFunnel     $protectFunnel
      * @param \Magento\Framework\App\ResourceConnection          $resource
-     * @param \Magento\Checkout\Model\Session\Proxy              $checkoutSession
+     * @param \Magento\Checkout\Model\Session                    $checkoutSession
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Payone\Core\Model\SimpleProtect\ProtectFunnel $protectFunnel,
         \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($protectFunnel);
